@@ -1,0 +1,17 @@
+4) Implement the DFA that accepts the all strings a^n b^n is divisible by 3, 2
+#include <stdio.h>
+#include <string.h>
+int main() { char str[100];
+int i, countA=0, countB=0, flag=1;
+printf("Enter string: "); scanf("%s", str);
+// count a's and b's for (i = 0; str[i] != '\0'; i++) { if (str[i] == 'a') countA++; else if (str[i] == 'b') countB++; else flag = 0; // invalid symbol
+}
+if (flag && countA == countB && (countA % 2 == 0 || countA % 3 == 0)) printf("String accepted\n"); else
+printf("String rejected\n");
+return 0;
+}
+7
+Output:
+Input: aabb → n=2 → accepted
+Input: aaabbb → n=3 → accepted
+Input: aab → rejected (unequal)
