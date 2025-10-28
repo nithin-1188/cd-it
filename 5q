@@ -1,0 +1,35 @@
+3.DES
+#include <stdio.h>
+#include <string.h>
+void encrypt_data(const char *input, char *output, const char *key) {
+size_t len = strlen(input);
+size_t key_len = strlen(key);
+for (size_t i = 0; i < len; i++) {
+output[i] = input[i] ^ key[i % key_len];
+}
+output[len] = '\0';
+}
+void decrypt_data(const char *input, char *output, const char *key) {
+size_t len = strlen(input);
+size_t key_len = strlen(key);
+for (size_t i = 0; i < len; i++) {
+output[i] = input[i] ^ key[i % key_len];
+}
+output[len] = '\0';
+}
+int main() {
+char plaintext[] = "Example Plaintext";
+char key[] = "secret";
+char ciphertext[256];
+char decryptedtext[256];
+encrypt_data(plaintext, ciphertext, key);
+printf("Plaintext: %s\n", plaintext);
+printf("Ciphertext (Binary Output): ");
+for (size_t i = 0; i < strlen(ciphertext); i++) {
+printf("%02X", (unsigned char)ciphertext[i]);
+}
+printf("\n");
+decrypt_data(ciphertext, decryptedtext, key);
+printf("Decryptedtext: %s\n", decryptedtext);
+return 0;
+}
