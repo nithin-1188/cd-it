@@ -1,0 +1,61 @@
+ROW TRANSPOSITION CIPHER
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+void encrypt(char *plaintext, char *key, char *ciphertext) {
+int keyLen = strlen(key);
+int ptLen = strlen(plaintext);
+int numCols = keyLen;
+int numRows = (ptLen + numCols - 1) / numCols;
+char matrix[numRows][numCols];
+int k = 0;
+for (int i = 0; i < numRows; i++) {
+for (int j = 0; j < numCols; j++) {
+if (k < ptLen) {
+matrix[i][j] = plaintext[k++];
+} else {
+matrix[i][j] = 'X';
+}
+}
+}
+int *order = (int *)malloc(keyLen * sizeof(int));
+for (int i = 0; i < keyLen; i++) {
+order[i] = -1;
+}
+char sortedKey[keyLen + 1];
+strcpy(sortedKey, key);
+for (int i = 0; i < keyLen; i++) {
+int minIndex = -1;
+char minChar = 127;
+for (int j = 0; j < keyLen; j++) {
+if (sortedKey[j] < minChar && order[j] == -1) {
+minChar = sortedKey[j];
+minIndex = j;
+}
+}
+if (minIndex != -1) {
+order[minIndex] = i;
+}
+}
+int c = 0;
+for (int i = 0; i < keyLen; i++) {
+for (int j = 0; j < keyLen; j++) {
+if (order[j] == i) {
+for (int r = 0; r < numRows; r++) {
+ciphertext[c++] = matrix[r][j];
+}
+break;
+}
+}
+}
+ciphertext[c] = '\0';
+free(order);
+}
+int main() {
+char plaintext[] = "HELLOWORLD";
+char key[] = "312";
+char ciphertext[100];
+encrypt(plaintext, key, ciphertext);
+printf("%s\n", ciphertext);
+return 0;
+}
