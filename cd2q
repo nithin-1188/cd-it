@@ -1,0 +1,17 @@
+2) Implement DFA that accepts all strings A's and A's greater than 3, and 3rd symbol of rhs is always a,
+#include <stdio.h>
+#include <string.h>
+int main() { char str[100]; printf("Enter string: "); scanf("%s", str);
+int n = strlen(str), i, flag = 1;
+// Check all are 'a' for (i = 0; i < n; i++) { if (str[i] != 'a') flag = 0;
+}
+if (flag && n > 3 && str[n - 3] == 'a') printf("String accepted\n"); else
+printf("String rejected\n");
+return 0;
+}
+Output:
+Input: aaaaa
+4
+Output: String accepted
+Input: aa
+Output: String rejected
