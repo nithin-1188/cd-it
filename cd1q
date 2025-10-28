@@ -1,0 +1,19 @@
+1) Write a c program to implement dfa accepting the language containing binary numbers
+#include <stdio.h>
+#include <string.h>
+int main() { char str[100];
+int i, state = 0; // start state
+printf("Enter a binary string: "); scanf("%s", str);
+for (i = 0; i < strlen(str); i++) { if (str[i] == '0' || str[i] == '1') state = 1; // move to valid state else {
+state = -1; // invalid input break;
+}
+}
+if (state == 1)
+printf("String is accepted (valid binary number)\n"); else
+printf("String is rejected (invalid binary number)\n");
+2
+return 0;
+}
+Output:
+Input: 10101
+Output: String is accepted (valid binary number)
