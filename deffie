@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <math.h>
+
+// Function to perform modular exponentiation
+int power(int base, int exponent, int mod) {
+    int result = 1;
+    base = base % mod;
+
+    while (exponent > 0) {
+        if (exponent % 2 == 1)
+            result = (result * base) % mod;
+
+        exponent = exponent >> 1;
+        base = (base * base) % mod;
+    }
+
+    return result;
+}
+
+int main() {
+    // Publicly known variables
+    int p = 23;  // Prime number
+    int g = 5;   // Primitive root modulo p
+
+    printf("Publicly known variables: Prime p = %d, Base g = %d\n", p, g);
+
+    // Alice's private key (a)
+    int a = 6;
+    int A = power(g, a, p); // Alice's public key
+
+    // Bob's private key (b)
+    int b = 15;
+    int B = power(g, b, p); // Bob's public key
+
+    // Exchange public keys and compute shared secret key
+    int secretKeyAlice = power(B, a, p); // (B^a) % p
+    int secretKeyBob = power(A, b, p);   // (A^b) % p
+
+    printf("Alice's Public Key (A): %d\n", A);
+    printf("Bob's Public Key (B): %d\n", B);
+    printf("Secret Key computed by Alice: %d\n", secretKeyAlice);
+    printf("Secret Key computed by Bob: %d\n", secretKeyBob);
+
+    if (secretKeyAlice == secretKeyBob)
+        printf("✅ Shared Secret Key: %d\n", secretKeyAlice);
+    else
+        printf("❌ Secret keys do not match!\n");
+
+    return 0;
+}
