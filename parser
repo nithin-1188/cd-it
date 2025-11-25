@@ -1,0 +1,125 @@
+6. Write a recursive descent parser for the grammar:
+
+S → (L) | a
+
+L → L , S | S
+
+
+
+Here is the **simplest possible recursive-descent parser** for your grammar, assuming **input contains NO SPACES**.
+
+---
+
+# ✅ Grammar After Removing Left Recursion
+
+```
+S  → ( L ) | a
+L  → S L'
+L' → , S L' | ε
+```
+
+---
+
+# ✅ **C Implementation (NO SPACES, only chars like a,(,),,)**
+
+✔ Minimal
+✔ Clean
+✔ Direct grammar implementation
+✔ Only checks VALID / INVALID
+
+---
+
+# ✅ **FINAL C PROGRAM**
+
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+char input[100];
+int pos = 0;
+
+char get() {
+    return input[pos];
+}
+
+void advance() {
+    pos++;
+}
+
+void error() {
+    printf("Invalid string\n");
+    exit(1);
+}
+
+/* Grammar functions */
+void S();
+void L();
+void Lprime();
+
+/* S → ( L ) | a */
+void S() {
+    if (get() == '(') {
+        advance();          // (
+        L();
+        if (get() != ')') error();
+        advance();          // )
+    }
+    else if (get() == 'a') {
+        advance();          // a
+    }
+    else {
+        error();
+    }
+}
+
+/* L → S L' */
+void L() {
+    S();
+    Lprime();
+}
+
+/* L' → , S L' | ε */
+void Lprime() {
+    while (get() == ',') {
+        advance();          // ,
+        S();
+    }
+}
+
+int main() {
+    printf("Enter string: ");
+    scanf("%s", input);
+
+    S();
+
+    if (get() == '\0')
+        printf("Valid string\n");
+    else
+        printf("Invalid string\n");
+
+    return 0;
+}
+```
+
+---
+
+# ✔ Valid Examples
+
+```
+a
+(a)
+(a,a)
+((a),a)
+(a,(a,a))
+```
+
+# ❌ Invalid Examples
+
+```
+()
+(,)
+(a,
+a)
+((a),)
+```
